@@ -20,6 +20,7 @@ public class ConfigurationHandler {
 
             object.addProperty("discord_token", "Change this to your Discord token.");
             object.addProperty("osu_token", "Change this to your osu! token.");
+            object.addProperty("color", "ff00c3");
             object.addProperty("lead", "osu!");
 
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
