@@ -1,7 +1,8 @@
-package me.sirgregg.osubot.cmdsystem.commands;
+package me.sirgregg.osubot.cmdsystem.commands.osu;
 
 import me.sirgregg.osubot.OsuBot;
 import me.sirgregg.osubot.cmdsystem.Command;
+import me.sirgregg.osubot.util.config.Configuration;
 import me.sirgregg.osubot.util.helpers.CountryCode;
 import me.sirgregg.osubot.util.helpers.EmbedUtil;
 import me.sirgregg.osubot.util.objects.User;
@@ -12,6 +13,7 @@ import java.awt.Color;
 import static me.sirgregg.osubot.util.helpers.NumbHelper.format;
 
 public class UserCommand extends Command {
+	private Configuration configuration = OsuBot.getConfiguration();
 	public UserCommand() {
 		super("user", "user <username> <mode> [more]", "Tests if it works.");
 	}
@@ -22,7 +24,7 @@ public class UserCommand extends Command {
 		// 0 -> username
 		// 1 -> mode
 		if (args.length < 2) {
-			e.getMessage().editMessage(EmbedUtil.createEmbed(color, "**Correct Usage:**\n" + getUsage())).queue();
+			e.getMessage().editMessage(EmbedUtil.createEmbed(color, "**Correct Usage:**\n" + configuration.getLead() + getUsage())).queue();
 			return;
 		}
 
