@@ -64,6 +64,27 @@ public class Osu {
 		}
 	}
 
+	public String parseApproved(String approved) {
+		switch (approved) {
+			case "4":
+				return "Loved";
+			case "3":
+				return "Qualified";
+			case "2":
+				return "Approved";
+			case "1":
+				return "Ranked";
+			case "0":
+				return "Pending";
+			case "-1":
+				return "WIP";
+			case "-2":
+				return "Graveyard";
+			default:
+				return null;
+		}
+	}
+
 	private String getJson(String url) {
 		try {
 			URLConnection connection = new URL(url).openConnection();
