@@ -1,4 +1,4 @@
-package me.sirgregg.osubot.cmdsystem.commands.osu;
+package me.sirgregg.osubot.cmdsystem.commands;
 
 import me.sirgregg.osubot.OsuBot;
 import me.sirgregg.osubot.cmdsystem.Command;
