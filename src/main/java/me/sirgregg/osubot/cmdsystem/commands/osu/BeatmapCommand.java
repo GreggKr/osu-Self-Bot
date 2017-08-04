@@ -1,7 +1,8 @@
-package me.sirgregg.osubot.cmdsystem.commands;
+package me.sirgregg.osubot.cmdsystem.commands.osu;
 
 import me.sirgregg.osubot.OsuBot;
 import me.sirgregg.osubot.cmdsystem.Command;
+import me.sirgregg.osubot.util.config.Configuration;
 import me.sirgregg.osubot.util.helpers.EmbedUtil;
 import me.sirgregg.osubot.util.objects.Beatmap;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -9,6 +10,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import java.awt.Color;
 
 public class BeatmapCommand extends Command {
+	private Configuration configuration = OsuBot.getConfiguration();
 	public BeatmapCommand() {
 		super(new String[] { "beatmap", "bm", "map" }, "map <id> <mode> [more] ", "Displays information about a beatmap.");
 	}
@@ -19,7 +21,7 @@ public class BeatmapCommand extends Command {
 		// 0 -> beatmap id
 		// 1 -> mode
 		if (args.length < 2) {
-			e.getMessage().editMessage(EmbedUtil.createEmbed(color, "**Correct Usage:**\n" + getUsage())).queue();
+			e.getMessage().editMessage(EmbedUtil.createEmbed(color, "**Correct Usage:**\n" + configuration.getLead() + getUsage())).queue();
 			return;
 		}
 
