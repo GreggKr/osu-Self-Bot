@@ -40,11 +40,10 @@ public class CommandHandler extends ListenerAdapter {
 
         if(!raw[0].toLowerCase().startsWith(configuration.getLead())) return;
 
-        String keyword = raw[0].toLowerCase().substring(configuration.getLead().length());
-
+        String keyword = raw[0].toLowerCase().replaceAll(configuration.getLead(), "");
         for (Command command : commands) {
         	List<String> keywords = Arrays.asList(command.getKeywords());
-        	if (keyword.contains(keyword.toLowerCase())) {
+        	if (keywords.contains(keyword.toLowerCase())) {
         		command.execute(e, args);
 			}
 		}
