@@ -21,7 +21,7 @@ public class BeatmapCommand extends Command {
 		if (e.getChannelType().isGuild()) {
 			color = e.getGuild().getSelfMember().getColor();
 		} else {
-			color = Color.decode(configuration.getColor());
+			color = new Color(Integer.parseInt(configuration.getColor()));
 		}
 		// 0 -> beatmap id
 		// 1 -> mode
