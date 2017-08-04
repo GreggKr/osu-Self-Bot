@@ -20,7 +20,7 @@ public class Osu {
 	private String baseUrl = "https://osu.ppy.sh/api/";
 	private String key = OsuBot.getConfiguration().getOsuToken();
 
-	public int parseMode(String mode) {
+	private int parseMode(String mode) {
 		switch (mode.toLowerCase()) {
 			case "std":
 			case "standard":
