@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import me.sirgregg.osubot.OsuBot;
 import me.sirgregg.osubot.util.helpers.URLUtil;
+import me.sirgregg.osubot.util.objects.Beatmap;
 import me.sirgregg.osubot.util.objects.User;
 
 import java.io.BufferedReader;
@@ -90,7 +91,7 @@ public class Osu {
 			return null;
 		}
 
-		String url = baseUrl + "get_user?k=" + sanatize(key) + "&u=" + sanatize(username) + "&type=string&m=" + parseMode(mode);
+		String url = baseUrl + "get_user?k=" + sanatize(key) + "&u=" + sanatize(username) + "&type=string&m=" + parsedMode;
 
 		if (exists(getJson(url))) {
 			Gson gson = new GsonBuilder().create();
@@ -100,6 +101,24 @@ public class Osu {
 		} else {
 			return null;
 		}
-
 	}
+
+	public Beatmap getBeatmap(String beatmapId, String mode) {
+		int parsedMode = parseMode(mode);
+		if (parsedMode == -1) {
+			return null;
+		}
+
+		String url = baseUrl + "get_beatmaps?k=" + sanatize(key) + "&b=" + sanatize(beatmapId) + "&m=" + parsedMode;
+
+		if (exists(getJson(url))) {
+			Gson gson = new GsonBuilder().create();
+			Beatmap[] beatmaps = gson.fromJson(URLUtil.readURL(url), Beatmap[].class);
+
+			return beatmaps[0];
+		} else {
+			return null;
+		}
+	}
+
 }
