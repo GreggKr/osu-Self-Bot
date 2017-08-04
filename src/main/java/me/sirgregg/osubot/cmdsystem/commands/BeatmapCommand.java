@@ -69,7 +69,7 @@ public class BeatmapCommand extends Command {
 							"**SONG: **" + beatmap.getTitle() + "\n\n" +
 
 							"**DIFFICULTY: **" + beatmap.getDifficultyRating() +
-							"*, CS" + beatmap.getDifCircleSize() +
+							"*, CS" + beatmap.getDiffCircleSize() +
 							", AR" + beatmap.getDiffApproach() +
 							", OD" + beatmap.getDifOverall() +
 							", HP" + beatmap.getDiffDrain() +
@@ -78,7 +78,26 @@ public class BeatmapCommand extends Command {
 							"**MAPSET: **https://osu.ppy.sh/s/" + beatmap.getBeatmapsetId()
 			)).queue();
 		} else {
+			e.getMessage().editMessage(EmbedUtil.createEmbed(color,
+					"**CREATOR: **" + beatmap.getArtist() + "\n" +
+							"**VERTSION: **" + beatmap.getVersion() + "\n" +
+							"**STATUS: **" + OsuBot.getOsu().parseApproved(beatmap.getApproved()) + "\n" +
+							"**SUBMITTED: **" + beatmap.getApprovedDate() + "\n" +
+							"**UPDATED: **" + beatmap.getLastUpdate() + "\n\n" +
 
+							"**COMPOSER: **" + beatmap.getCreator() + "\n" +
+							"**SONG: **" + beatmap.getTitle() + "\n\n" +
+
+							"**STARS: **" + beatmap.getDifficultyRating() + "*\n" +
+							"**CS: **" + beatmap.getDiffCircleSize() + "\n" +
+							"**AR: **" + beatmap.getDiffApproach() + "\n" +
+							"**OD: **" + beatmap.getDifOverall() + "\n" +
+							"**HP: **" + beatmap.getDiffDrain() + "\n" +
+							"**BPM: **" + beatmap.getBpm() + "\n" +
+							"**DRAIN LENGTH: **" + beatmap.getHitLength() + "/" + beatmap.getTotalLength() + " (" + beatmap.getMaxCombo() + "x combo)\n" +
+
+							"**MAPSET: **https://osu.ppy.sh/s/" + beatmap.getBeatmapsetId()
+			)).queue();
 		}
 	}
 }
