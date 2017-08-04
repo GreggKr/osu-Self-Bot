@@ -17,7 +17,12 @@ public class BeatmapCommand extends Command {
 
 	@Override
 	public void execute(MessageReceivedEvent e, String[] args) {
-		Color color = e.getGuild().getSelfMember().getColor();
+		Color color;
+		if (e.getChannelType().isGuild()) {
+			color = e.getGuild().getSelfMember().getColor();
+		} else {
+			color = Color.decode(configuration.getColor());
+		}
 		// 0 -> beatmap id
 		// 1 -> mode
 		if (args.length < 2) {
