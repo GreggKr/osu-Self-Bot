@@ -1,8 +1,8 @@
 package me.sirgregg.osubot.cmdsystem;
 
 import me.sirgregg.osubot.OsuBot;
-import me.sirgregg.osubot.cmdsystem.commands.osu.BeatmapCommand;
-import me.sirgregg.osubot.cmdsystem.commands.osu.UserCommand;
+import me.sirgregg.osubot.cmdsystem.commands.BeatmapCommand;
+import me.sirgregg.osubot.cmdsystem.commands.UserCommand;
 import me.sirgregg.osubot.util.config.Configuration;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
