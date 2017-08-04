@@ -21,7 +21,7 @@ public class Beatmap {
 	private String difficultyRating;
 
 	@SerializedName("diff_size")
-	private String difCircleSize;
+	private String diffCircleSize;
 
 	@SerializedName("diff_overall")
 	private String difOverall;
@@ -115,8 +115,8 @@ public class Beatmap {
 		return difficultyRating;
 	}
 
-	public String getDifCircleSize() {
-		return difCircleSize;
+	public String getDiffCircleSize() {
+		return diffCircleSize;
 	}
 
 	public String getDifOverall() {
