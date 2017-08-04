@@ -1,7 +1,6 @@
 package me.sirgregg.osubot.cmdsystem;
 
 import me.sirgregg.osubot.OsuBot;
-import me.sirgregg.osubot.cmdsystem.commands.HelpCommand;
 import me.sirgregg.osubot.cmdsystem.commands.osu.BeatmapCommand;
 import me.sirgregg.osubot.cmdsystem.commands.osu.UserCommand;
 import me.sirgregg.osubot.util.config.Configuration;
@@ -18,7 +17,6 @@ public class CommandHandler extends ListenerAdapter {
     private Configuration configuration = OsuBot.getConfiguration();
 
     public CommandHandler() {
-    	addCommand(new HelpCommand());
     	addCommand(new UserCommand());
     	addCommand(new BeatmapCommand());
     }
