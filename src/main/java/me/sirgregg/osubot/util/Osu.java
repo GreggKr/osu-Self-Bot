@@ -107,6 +107,25 @@ public class Osu {
 		return !(new JsonParser().parse(json).getAsJsonArray().get(0) == null);
 	}
 
+	public User getUser(int userId, String mode) {
+		int parsedMode = parseMode(mode);
+		if (parsedMode == -1) {
+			return null;
+		}
+
+		String id = Integer.toString(userId);
+		String url = baseUrl + "get_user?k=" + sanatize(key) + "&u=" + sanatize(id) + "&type=id&m=" + parsedMode;
+
+		if (exists(getJson(url))) {
+			Gson gson = new GsonBuilder().create();
+			User[] users = gson.fromJson(URLUtil.readURL(url), User[].class);
+
+			return users[0];
+		} else {
+			return null;
+		}
+	}
+
 	public User getUser(String username, String mode) {
 		int parsedMode = parseMode(mode);
 		if (parsedMode == -1) {
@@ -147,9 +166,23 @@ public class Osu {
 				beatmaps[i] = getBeatmap(plays[i].getBeatmapId(), mode);
 			}
 			return beatmaps;
-		} else {
+		}
+		return null;
+	}
+
+	public Play[] getRecentPlays(String username, String amount, String mode) {
+		int parsedMode = parseMode(mode);
+		if (parsedMode == -1) {
 			return null;
 		}
+
+		String url = baseUrl + "get_user_recent?k=" + sanatize(key) + "&u=" + sanatize(username) + "&type=string&m=" + parsedMode + "^limit=" + amount;
+
+		if (exists(getJson(url))) {
+			Gson gson = new GsonBuilder().create();
+			return gson.fromJson(URLUtil.readURL(url), Play[].class);
+		}
+		return null;
 	}
 
 	public Beatmap getBeatmap(String beatmapId, String mode) {
