@@ -66,8 +66,8 @@ public class AverageStarCommand extends Command {
 		User user = OsuBot.getOsu().getUser(Integer.parseInt(plays[0].getUserId()), rawMode);
 
 		e.getMessage().editMessage(EmbedUtil.createEmbed(color, "**PLAYER: **" + user.getUsername() + "\n" +
-				"**AMOUNT: **" + Integer.toString(number) + "\n" +
-				"**AVERAGE STARS: **" + Double.toString(totalStarCount) + "*"
+				"**AMOUNT: **" + Double.toString(number) + "\n" +
+				"**AVERAGE STARS: **" + totalStarCount / plays.length + "*"
 		)).queue();
 	}
 }
