@@ -1,7 +1,6 @@
 package me.sirgregg.osubot.cmdsystem;
 
 import me.sirgregg.osubot.OsuBot;
-import me.sirgregg.osubot.cmdsystem.commands.AverageStarCommand;
 import me.sirgregg.osubot.cmdsystem.commands.BeatmapCommand;
 import me.sirgregg.osubot.cmdsystem.commands.BestCommand;
 import me.sirgregg.osubot.cmdsystem.commands.UserCommand;
@@ -24,7 +23,6 @@ public class CommandHandler extends ListenerAdapter {
     	addCommand(new UserCommand());
     	addCommand(new BeatmapCommand());
     	addCommand(new BestCommand());
-    	addCommand(new AverageStarCommand());
     }
 
     public static List<Command> getCommands() {
