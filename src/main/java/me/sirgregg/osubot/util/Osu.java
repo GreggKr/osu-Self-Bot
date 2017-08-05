@@ -125,7 +125,7 @@ public class Osu {
 	}
 
 	public Beatmap getXthBestPlay(String username, int x, String mode) {
-		return getBestPlays(username, Integer.toString(x), mode)[x];
+		return getBestPlays(username, Integer.toString(x), mode)[x - 1];
 	}
 
 	// Yes, I understand using a String for an amount is dumb, well, the osu!API uses Strings, so for simplicities sake, so am I.
