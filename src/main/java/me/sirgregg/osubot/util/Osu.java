@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import me.sirgregg.osubot.OsuBot;
 import me.sirgregg.osubot.util.helpers.URLUtil;
 import me.sirgregg.osubot.util.objects.Beatmap;
+import me.sirgregg.osubot.util.objects.Play;
 import me.sirgregg.osubot.util.objects.User;
 
 import java.io.BufferedReader;
@@ -139,7 +140,13 @@ public class Osu {
 
 		if (exists(getJson(url))) {
 			Gson gson = new GsonBuilder().create();
-			return gson.fromJson(URLUtil.readURL(url), Beatmap[].class);
+			Play[] plays =  gson.fromJson(URLUtil.readURL(url), Play[].class);
+
+			Beatmap[] beatmaps = new Beatmap[Integer.parseInt(amount)];
+			for (int i = 0; i < plays.length; i++) {
+				beatmaps[i] = getBeatmap(plays[i].getBeatmapId(), mode);
+			}
+			return beatmaps;
 		} else {
 			return null;
 		}
