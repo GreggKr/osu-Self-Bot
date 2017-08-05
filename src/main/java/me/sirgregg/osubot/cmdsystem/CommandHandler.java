@@ -7,6 +7,7 @@ import me.sirgregg.osubot.util.config.Configuration;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,11 +41,18 @@ public class CommandHandler extends ListenerAdapter {
 
         if(!raw[0].toLowerCase().startsWith(configuration.getLead())) return;
 
+		Color color;
+		if (e.getChannelType().isGuild()) {
+			color = e.getGuild().getSelfMember().getColor();
+		} else {
+			color = new Color(Integer.parseInt(configuration.getColor()));
+		}
+
         String keyword = raw[0].toLowerCase().replaceAll(configuration.getLead(), "");
         for (Command command : commands) {
         	List<String> keywords = Arrays.asList(command.getKeywords());
         	if (keywords.contains(keyword.toLowerCase())) {
-        		command.execute(e, args);
+        		command.execute(e, color, args);
 			}
 		}
     }

@@ -3,6 +3,8 @@ package me.sirgregg.osubot.cmdsystem;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
+import java.awt.Color;
+
 public abstract class Command {
     private String[] keywords;
     private String usage, description;
@@ -19,7 +21,7 @@ public abstract class Command {
         this.description = description;
     }
 
-    public abstract void execute(MessageReceivedEvent e, String[] args);
+    public abstract void execute(MessageReceivedEvent e, Color color, String[] args);
 
     public String[] getKeywords() {
         return keywords;
