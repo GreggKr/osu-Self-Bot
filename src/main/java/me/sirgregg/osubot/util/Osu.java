@@ -124,6 +124,27 @@ public class Osu {
 		}
 	}
 
+	public Beatmap getXthBestPlay(String username, int x, String mode) {
+		return getBestPlays(username, Integer.toString(x), mode)[x];
+	}
+
+	// Yes, I understand using a String for an amount is dumb, well, the osu!API uses Strings, so for simplicities sake, so am I.
+	public Beatmap[] getBestPlays(String username, String amount, String mode) {
+		int parsedMode = parseMode(mode);
+		if (parsedMode == -1) {
+			return null;
+		}
+
+		String url = baseUrl + "get_user_best?k=" + sanatize(key) + "&u=" + sanatize(username) + "&type=string&m=" + parsedMode + "&limit=" + amount;
+
+		if (exists(getJson(url))) {
+			Gson gson = new GsonBuilder().create();
+			return gson.fromJson(URLUtil.readURL(url), Beatmap[].class);
+		} else {
+			return null;
+		}
+	}
+
 	public Beatmap getBeatmap(String beatmapId, String mode) {
 		int parsedMode = parseMode(mode);
 		if (parsedMode == -1) {
