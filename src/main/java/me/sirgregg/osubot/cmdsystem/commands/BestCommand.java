@@ -41,7 +41,7 @@ public class BestCommand extends Command {
 		try {
 			number = Integer.parseInt(strNumber);
 
-			if (number < 0 || number > 100) {
+			if (number < 1 || number > 100) {
 				e.getMessage().editMessage(EmbedUtil.createEmbed(color, "**Invalid Number**\nThe amount of beatmaps to parse must be between 1 and 100.")).queue();
 				return;
 			}
