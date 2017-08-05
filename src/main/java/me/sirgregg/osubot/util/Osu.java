@@ -176,7 +176,7 @@ public class Osu {
 			return null;
 		}
 
-		String url = baseUrl + "get_user_recent?k=" + sanatize(key) + "&u=" + sanatize(username) + "&type=string&m=" + parsedMode + "^limit=" + amount;
+		String url = baseUrl + "get_user_recent?k=" + sanatize(key) + "&u=" + sanatize(username) + "&type=string&m=" + parsedMode + "&limit=" + amount;
 
 		if (exists(getJson(url))) {
 			Gson gson = new GsonBuilder().create();
