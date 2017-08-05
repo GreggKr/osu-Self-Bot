@@ -2,6 +2,7 @@ package me.sirgregg.osubot.cmdsystem;
 
 import me.sirgregg.osubot.OsuBot;
 import me.sirgregg.osubot.cmdsystem.commands.BeatmapCommand;
+import me.sirgregg.osubot.cmdsystem.commands.BestCommand;
 import me.sirgregg.osubot.cmdsystem.commands.UserCommand;
 import me.sirgregg.osubot.util.config.Configuration;
 import me.sirgregg.osubot.util.config.MessageColor;
@@ -21,6 +22,7 @@ public class CommandHandler extends ListenerAdapter {
     public CommandHandler() {
     	addCommand(new UserCommand());
     	addCommand(new BeatmapCommand());
+    	addCommand(new BestCommand());
     }
 
     public static List<Command> getCommands() {
