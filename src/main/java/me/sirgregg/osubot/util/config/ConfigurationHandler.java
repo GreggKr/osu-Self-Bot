@@ -17,10 +17,17 @@ public class ConfigurationHandler {
         try {
             Writer writer = new FileWriter(path);
             JsonObject object = new JsonObject();
+            JsonObject messageColor = new JsonObject();
 
             object.addProperty("discord_token", "Change this to your Discord token.");
             object.addProperty("osu_token", "Change this to your osu! token.");
-            object.addProperty("color", "ff00c3");
+
+            messageColor.addProperty("r", 14);
+            messageColor.addProperty("g", 13);
+            messageColor.addProperty("b", 48);
+
+            object.add("message_color", messageColor);
+
             object.addProperty("lead", "osu!");
 
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
