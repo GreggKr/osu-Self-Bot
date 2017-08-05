@@ -3,7 +3,10 @@ package me.sirgregg.osubot.util.config;
 import com.google.gson.annotations.SerializedName;
 
 public class Configuration {
-	private String lead, color;
+	private String lead;
+
+	@SerializedName("message_color")
+	private MessageColor messageColor;
 
     @SerializedName("discord_token")
     private String discordToken;
@@ -11,12 +14,12 @@ public class Configuration {
     @SerializedName("osu_token")
 	private String osuToken;
 
-    public String getLead() {
-        return lead;
-    }
+	public MessageColor getMessageColor() {
+		return messageColor;
+	}
 
-	public String getColor() {
-		return color;
+	public String getLead() {
+		return lead;
 	}
 
 	public String getOsuToken() {

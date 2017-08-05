@@ -4,6 +4,7 @@ import me.sirgregg.osubot.OsuBot;
 import me.sirgregg.osubot.cmdsystem.commands.BeatmapCommand;
 import me.sirgregg.osubot.cmdsystem.commands.UserCommand;
 import me.sirgregg.osubot.util.config.Configuration;
+import me.sirgregg.osubot.util.config.MessageColor;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
@@ -45,7 +46,8 @@ public class CommandHandler extends ListenerAdapter {
 		if (e.getChannelType().isGuild()) {
 			color = e.getGuild().getSelfMember().getColor();
 		} else {
-			color = new Color(Integer.parseInt(configuration.getColor()));
+			MessageColor messageColor = configuration.getMessageColor();
+			color = new Color(messageColor.getR(), messageColor.getG(), messageColor.getB());
 		}
 
         String keyword = raw[0].toLowerCase().replaceAll(configuration.getLead(), "");
