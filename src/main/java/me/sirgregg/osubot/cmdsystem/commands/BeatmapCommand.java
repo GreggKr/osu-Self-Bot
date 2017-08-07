@@ -26,7 +26,7 @@ public class BeatmapCommand extends Command {
 
 		boolean more = false;
 
-		if (args.length >= 3 && args[2].equalsIgnoreCase("more")) { // If it's more than the base args and the 3rd arg (args[2]) is "more"
+		if (args.length >= 4 && args[3].equalsIgnoreCase("more")) { // If it's more than the base args and the 3rd arg (args[2]) is "more"
 			more = true;
 		}
 
@@ -47,8 +47,8 @@ public class BeatmapCommand extends Command {
 			e.getMessage().editMessage(EmbedUtil.createEmbed(color,
 					"**Valid Modes: **\n" +
 							"std, standard -> osu!standard\n" +
-							"tak, taiko -> Taiko" +
-							"ctb, catch -> Catch the Beat" +
+							"tak, taiko -> Taiko" + "\n" +
+							"ctb, catch -> Catch the Beat" + "\n" +
 							"man, mania -> Mania\n")).queue();
 			return;
 		}
@@ -68,9 +68,9 @@ public class BeatmapCommand extends Command {
 
 		if (!more) {
 			e.getMessage().editMessage(EmbedUtil.createEmbed(color,
-					"**CREATOR: **" + beatmap.getArtist() + "\n" +
+					"**CREATOR: **" + beatmap.getCreator() + "\n" +
 							"**VERTSION: **" + beatmap.getVersion() + "\n" +
-							"**COMPOSER: **" + beatmap.getCreator() + "\n" +
+							"**COMPOSER: **" + beatmap.getArtist() + "\n" +
 							"**SONG: **" + beatmap.getTitle() + "\n\n" +
 
 							"**DIFFICULTY: **" + beatmap.getDifficultyRating() +
@@ -79,19 +79,19 @@ public class BeatmapCommand extends Command {
 							", OD" + beatmap.getDifOverall() +
 							", HP" + beatmap.getDiffDrain() +
 							", BPM" + beatmap.getBpm() + "\n" +
-							"**DRAIN LENGTH: **" + beatmap.getTotalLength() + " (" + beatmap.getMaxCombo() + "x combo)" +
+							"**DRAIN LENGTH: **" + beatmap.getTotalLength() + " (" + beatmap.getMaxCombo() + "x combo)\n" +
 							"**MAPSET: **https://osu.ppy.sh/s/" + beatmap.getBeatmapsetId()
 			)).queue();
 		} else {
 			String pp = OsuBot.getOsu().getPP(rawId, rawMode, null, mods, null, null, null);
 			e.getMessage().editMessage(EmbedUtil.createEmbed(color,
-					"**CREATOR: **" + beatmap.getArtist() + "\n" +
-							"**VERTSION: **" + beatmap.getVersion() + "\n" +
+					"**CREATOR: **" + beatmap.getCreator() + "\n" +
+							"**VERSION: **" + beatmap.getVersion() + "\n" +
 							"**STATUS: **" + OsuBot.getOsu().parseApproved(beatmap.getApproved()) + "\n" +
 							"**SUBMITTED: **" + beatmap.getApprovedDate() + "\n" +
 							"**UPDATED: **" + beatmap.getLastUpdate() + "\n\n" +
 
-							"**COMPOSER: **" + beatmap.getCreator() + "\n" +
+							"**COMPOSER: **" +  beatmap.getArtist() + "\n" +
 							"**SONG: **" + beatmap.getTitle() + "\n\n" +
 
 							"**STARS: **" + beatmap.getDifficultyRating() + "*\n" +
@@ -102,7 +102,7 @@ public class BeatmapCommand extends Command {
 							"**BPM: **" + beatmap.getBpm() + "\n" +
 							"**DRAIN LENGTH: **" + beatmap.getHitLength() + "/" + beatmap.getTotalLength() + " (" + beatmap.getMaxCombo() + "x combo)\n\n" +
 
-							"**MAX PP: **" + pp + "\n\n" +
+							"**MAX PP: **" + pp + "\n" + // NOTE: Doing just one \n is just a sneaky way of negating the effects of the added \n from the api. Yes, it's lazy, no, I don't plan on changing it.
 
 							"**MAPSET: **https://osu.ppy.sh/s/" + beatmap.getBeatmapsetId()
 			)).queue();
