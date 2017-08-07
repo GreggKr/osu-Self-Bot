@@ -6,22 +6,23 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import me.sirgregg.osubot.OsuBot;
+import me.sirgregg.osubot.util.file.FileDownloader;
 import me.sirgregg.osubot.util.helpers.URLUtil;
 import me.sirgregg.osubot.util.objects.Beatmap;
 import me.sirgregg.osubot.util.objects.Play;
 import me.sirgregg.osubot.util.objects.User;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Osu {
 	private String baseUrl = "https://osu.ppy.sh/api/";
 	private String key = OsuBot.getConfiguration().getOsuToken();
 
-	private int parseMode(String mode) {
+	public int parseMode(String mode) {
 		switch (mode.toLowerCase()) {
 			case "std":
 			case "standard":
@@ -183,6 +184,113 @@ public class Osu {
 			return gson.fromJson(URLUtil.readURL(url), Play[].class);
 		}
 		return null;
+	}
+
+	/*
+
+	@param mode should be *unparsed*
+
+	@returns -1 if file is null
+	@returns -2 if process fails
+	@returns -3 if mode isn't correct
+	@returns -4 if the return from oppai is null.
+	@returns pp if everything works
+
+	 */
+	public String getPP(String beatmapId, String mode, String accuracy, String mods, String combo, String misses, String scoreVersion) {
+		int parsedMode = parseMode(mode);
+		if (parsedMode == -1) {
+			return "-3";
+		}
+		String input = "https://osu.ppy.sh/osu/" + beatmapId + "?m=" + mode;
+
+		File file = null;
+
+		// Used to calculate pp
+		Process osu;
+
+		try {
+			String result = FileDownloader.downloadFromUrl(new URL(input), "map.osu");
+			file = new File(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		Beatmap beatmap = getBeatmap(beatmapId, mode);
+
+		if (accuracy == null) {
+			accuracy = "100%";
+		}
+
+		if (mods == null) {
+			mods = "+nomod";
+		}
+
+		if (combo == null) {
+			combo = beatmap.getMaxCombo() + "x";
+		}
+
+		if (misses == null) {
+			misses = "0m";
+		}
+
+		if (scoreVersion == null) {
+			scoreVersion = "scorev1";
+		}
+
+
+		if (!accuracy.contains("%")) {
+			accuracy = accuracy + "%";
+		}
+
+		if (!mods.contains("+")) {
+			mods = "+" + mods;
+		}
+
+		if (!combo.contains("x")) {
+			combo = combo + "x";
+		}
+
+		if (!misses.contains("m")) {
+			misses = misses + "m";
+		}
+
+		System.out.println("Acc: " + accuracy);
+		System.out.println("mods: " + mods);
+		System.out.println("combo: " + combo);
+		System.out.println("misess: " + misses);
+		System.out.println("score v: " + scoreVersion);
+
+		if (file != null) {
+			try {
+				osu = new ProcessBuilder("lib\\oppai.exe", file.getAbsolutePath(), accuracy, mods, combo, misses, scoreVersion).start();
+
+				InputStream is = osu.getInputStream();
+				InputStreamReader inputStreamReader = new InputStreamReader(is);
+				BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+				String read = null;
+				String line;
+
+				List<String> infoArray = new ArrayList<>();
+
+				while((line = bufferedReader.readLine()) != null) {
+					read = read + line + "\n"; // TODO: Use a builder
+					infoArray.add(line + "\n");
+				}
+
+				if (read != null) {
+					return infoArray.get(28); // PP
+				} else{
+					return "-4";
+				}
+
+			} catch (IOException e) {
+				return "-2";
+			}
+		} else {
+			return "-1";
+		}
 	}
 
 	public Beatmap getBeatmap(String beatmapId, String mode) {
