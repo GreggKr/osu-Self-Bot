@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import me.sirgregg.osubot.OsuBot;
+import me.sirgregg.osubot.util.config.Configuration;
 import me.sirgregg.osubot.util.file.FileDownloader;
 import me.sirgregg.osubot.util.helpers.URLUtil;
 import me.sirgregg.osubot.util.objects.Beatmap;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Osu {
+	private Configuration config = OsuBot.getConfiguration();
 	private String baseUrl = "https://osu.ppy.sh/api/";
 	private String key = OsuBot.getConfiguration().getOsuToken();
 
@@ -257,7 +259,7 @@ public class Osu {
 
 		if (file != null) {
 			try {
-				osu = new ProcessBuilder("lib\\oppai.exe", file.getAbsolutePath(), accuracy, mods, combo, misses, scoreVersion).start();
+				osu = new ProcessBuilder(config.getOppaiPath(), file.getAbsolutePath(), accuracy, mods, combo, misses, scoreVersion).start();
 
 				InputStream is = osu.getInputStream();
 				InputStreamReader inputStreamReader = new InputStreamReader(is);
