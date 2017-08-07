@@ -16,33 +16,33 @@ import java.util.Collections;
 import java.util.List;
 
 public class CommandHandler extends ListenerAdapter {
-    private static List<Command> commands = new ArrayList<>();
-    private Configuration configuration = OsuBot.getConfiguration();
+	private static List<Command> commands = new ArrayList<>();
+	private Configuration configuration = OsuBot.getConfiguration();
 
-    public CommandHandler() {
-    	addCommand(new UserCommand());
-    	addCommand(new BeatmapCommand());
-    	addCommand(new BestCommand());
-    }
+	public CommandHandler() {
+		addCommand(new UserCommand());
+		addCommand(new BeatmapCommand());
+		addCommand(new BestCommand());
+	}
 
-    public static List<Command> getCommands() {
-        return Collections.unmodifiableList(commands);
-    }
+	public static List<Command> getCommands() {
+		return Collections.unmodifiableList(commands);
+	}
 
-    private void addCommand(Command command) {
-        if (!commands.contains(command)) {
-            commands.add(command);
-        }
-    }
+	private void addCommand(Command command) {
+		if (!commands.contains(command)) {
+			commands.add(command);
+		}
+	}
 
-    @Override
-    public void onMessageReceived(MessageReceivedEvent e) {
-        if (!e.getJDA().getSelfUser().equals(e.getAuthor())) return;
+	@Override
+	public void onMessageReceived(MessageReceivedEvent e) {
+		if (!e.getJDA().getSelfUser().equals(e.getAuthor())) return;
 
-        String[] raw = e.getMessage().getContent().split(" ");
-        String[] args = Arrays.copyOfRange(raw, 1, raw.length);
+		String[] raw = e.getMessage().getContent().split(" ");
+		String[] args = Arrays.copyOfRange(raw, 1, raw.length);
 
-        if(!raw[0].toLowerCase().startsWith(configuration.getLead())) return;
+		if (!raw[0].toLowerCase().startsWith(configuration.getLead())) return;
 
 		Color color;
 		if (e.getChannelType().isGuild()) {
@@ -52,13 +52,13 @@ public class CommandHandler extends ListenerAdapter {
 			color = new Color(messageColor.getR(), messageColor.getG(), messageColor.getB());
 		}
 
-        String keyword = raw[0].toLowerCase().replaceAll(configuration.getLead(), "");
-        for (Command command : commands) {
-        	List<String> keywords = Arrays.asList(command.getKeywords());
-        	if (keywords.contains(keyword.toLowerCase())) {
-        		command.execute(e, color, args);
+		String keyword = raw[0].toLowerCase().replaceAll(configuration.getLead(), "");
+		for (Command command : commands) {
+			List<String> keywords = Arrays.asList(command.getKeywords());
+			if (keywords.contains(keyword.toLowerCase())) {
+				command.execute(e, color, args);
 			}
 		}
-    }
+	}
 
 }
