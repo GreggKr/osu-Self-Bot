@@ -12,7 +12,7 @@ import java.awt.Color;
 public class BeatmapCommand extends Command {
 	private Configuration configuration = OsuBot.getConfiguration();
 	public BeatmapCommand() {
-		super(new String[] { "beatmap", "bm", "map" }, "map <id> <mode> [more] ", "Displays information about a beatmap.");
+		super(new String[] { "beatmap", "bm", "map" }, "map <id> <mode> [mods] [more] ", "Displays information about a beatmap.");
 	}
 
 	@Override
@@ -52,6 +52,12 @@ public class BeatmapCommand extends Command {
 							"man, mania -> Mania\n")).queue();
 			return;
 		}
+
+		String mods = null;
+		if (args.length >= 3) {
+			mods = args[2];
+		}
+
 		Beatmap beatmap = OsuBot.getOsu().getBeatmap(rawId, rawMode);
 		if (beatmap == null) { // Mode is invalid or User does not have stats
 			e.getMessage().editMessage(EmbedUtil.createEmbed(color,
@@ -77,6 +83,7 @@ public class BeatmapCommand extends Command {
 							"**MAPSET: **https://osu.ppy.sh/s/" + beatmap.getBeatmapsetId()
 			)).queue();
 		} else {
+			String pp = OsuBot.getOsu().getPP(rawId, rawMode, null, mods, null, null, null);
 			e.getMessage().editMessage(EmbedUtil.createEmbed(color,
 					"**CREATOR: **" + beatmap.getArtist() + "\n" +
 							"**VERTSION: **" + beatmap.getVersion() + "\n" +
@@ -93,7 +100,9 @@ public class BeatmapCommand extends Command {
 							"**OD: **" + beatmap.getDifOverall() + "\n" +
 							"**HP: **" + beatmap.getDiffDrain() + "\n" +
 							"**BPM: **" + beatmap.getBpm() + "\n" +
-							"**DRAIN LENGTH: **" + beatmap.getHitLength() + "/" + beatmap.getTotalLength() + " (" + beatmap.getMaxCombo() + "x combo)\n" +
+							"**DRAIN LENGTH: **" + beatmap.getHitLength() + "/" + beatmap.getTotalLength() + " (" + beatmap.getMaxCombo() + "x combo)\n\n" +
+
+							"**MAX PP: **" + pp + "\n\n" +
 
 							"**MAPSET: **https://osu.ppy.sh/s/" + beatmap.getBeatmapsetId()
 			)).queue();
