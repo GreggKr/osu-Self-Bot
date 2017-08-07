@@ -255,12 +255,6 @@ public class Osu {
 			misses = misses + "m";
 		}
 
-		System.out.println("Acc: " + accuracy);
-		System.out.println("mods: " + mods);
-		System.out.println("combo: " + combo);
-		System.out.println("misess: " + misses);
-		System.out.println("score v: " + scoreVersion);
-
 		if (file != null) {
 			try {
 				osu = new ProcessBuilder("lib\\oppai.exe", file.getAbsolutePath(), accuracy, mods, combo, misses, scoreVersion).start();
