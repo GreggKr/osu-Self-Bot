@@ -69,7 +69,7 @@ public class BeatmapCommand extends Command {
 		if (!more) {
 			e.getMessage().editMessage(EmbedUtil.createEmbed(color,
 					"**CREATOR: **" + beatmap.getCreator() + "\n" +
-							"**VERTSION: **" + beatmap.getVersion() + "\n" +
+							"**VERSION: **" + beatmap.getVersion() + "\n" +
 							"**COMPOSER: **" + beatmap.getArtist() + "\n" +
 							"**SONG: **" + beatmap.getTitle() + "\n\n" +
 
