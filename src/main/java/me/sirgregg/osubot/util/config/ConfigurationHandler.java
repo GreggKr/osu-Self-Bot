@@ -21,6 +21,7 @@ public class ConfigurationHandler {
 
             object.addProperty("discord_token", "Change this to your Discord token.");
             object.addProperty("osu_token", "Change this to your osu! token.");
+            object.addProperty("path_to_oppai", "C://oppai.exe");
 
             messageColor.addProperty("r", 14);
             messageColor.addProperty("g", 13);

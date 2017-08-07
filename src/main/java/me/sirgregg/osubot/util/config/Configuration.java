@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 public class Configuration {
 	private String lead;
 
+	@SerializedName("path_to_oppai")
+	private String oppaiPath;
+
 	@SerializedName("message_color")
 	private MessageColor messageColor;
 
@@ -29,4 +32,8 @@ public class Configuration {
 	public String getDiscordToken() {
         return discordToken;
     }
+
+	public String getOppaiPath() {
+		return oppaiPath;
+	}
 }
