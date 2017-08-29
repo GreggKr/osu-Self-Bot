@@ -8,9 +8,11 @@ import me.sirgregg.osubot.util.objects.Beatmap;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.awt.Color;
+import java.util.List;
 
 public class PPCommand extends Command {
 	private Configuration configuration = OsuBot.getConfiguration();
+
 	public PPCommand() {
 		super("pp", "pp <beatmapID> <mode> <acc> <mods OR nm> <combo OR max> <misses OR none> [score version]", "Displays how much PP a play is worth.");
 	}
@@ -85,16 +87,58 @@ public class PPCommand extends Command {
 			misses = "0";
 		}
 
-		String pp = OsuBot.getOsu().getPP(rawId, rawMode, rawAcc, mods, combo, misses, scoreVersion);
+		List<String> info = OsuBot.getOsu().getInfo(rawId, rawMode, rawAcc, mods, combo, misses, scoreVersion);
+		String pp = info.get(28);
 
 		pp = pp.substring(0, pp.length() - 3);
 
+		String stars = info.get(19);
+		stars = stars.substring(0, stars.length() - 6);// length of " stars"
+
+		String odArCs = info.get(12); // od7.5 ar9 cs4.3
+
+		String[] split = odArCs.split(" "); // 0 -> od, 1 -> ar, 2 -> cs
+		String od = split[0].substring(2);
+		String ar = split[1].substring(2);
+		String cs = split[2].substring(2);
+		cs = cs.substring(0, cs.length() - 1); // line break
+
+
+		String aimPP = info.get(22);
+		aimPP = aimPP.substring(5, aimPP.length());
+
+		String speedPP = info.get(23);
+		speedPP = speedPP.substring(7, speedPP.length());
+
+		String accPP = info.get(24);
+		accPP = accPP.substring(10, accPP.length());
+		int parsedMode = OsuBot.getOsu().parseMode(rawMode);
+
 		e.getMessage().editMessage(EmbedUtil.createEmbed(color,
-				"**CREATOR: **" + beatmap.getCreator() + "\n" +
-						"**VERSION: **" + beatmap.getVersion() + "\n" +
+				"**PP: **" + pp + "\n" +
+						"**AIM: **" + aimPP +
+						"**SPEED: **" + speedPP +
+						"**ACCURACY: **" + accPP + "\n" +
+
+						"**MODS: **+" + mods.toUpperCase() + "\n\n" +
+
+						"**ACCURACY: **" + rawAcc + "%\n" +
+						"**COMBO: **" + combo + "x/" + beatmap.getMaxCombo() + "x (" + misses + "MISS)\n\n" +
+
+						"**STARS: **" + stars + "*\n" +
+						"**CIRCLE SIZE: **CS" + cs + "\n" +
+						"**OVERALL DIFFICULTY: **OD" + od + "\n" +
+						"**APPROACH RATE: **AR" + ar + "\n" +
+						"**HEALTH: **HP" + "\n\n" +
+
+						"**BEATMAP: **https://osu.ppy.sh/b/" + beatmap.getBeatmapId() + "\n" +
+						"**MAPPER: **" + beatmap.getCreator() + "\n" +
+						"**VERSION: **" + beatmap.getVersion() + "\n\n" +
+
 						"**COMPOSER: **" + beatmap.getArtist() + "\n" +
-						"**SONG: **" + beatmap.getTitle() + "\n" +
-						"**PP: **" + pp
+						"**MUSIC: **" + beatmap.getTitle() + "\n\n" +
+
+						"**COMMAND: **osu!PP " + beatmap.getBeatmapId() + "?m=" + parsedMode + " " + mods + " " + acc + " " + combo + " " + misses + " " + scoreVersion
 		)).queue();
 
 	}

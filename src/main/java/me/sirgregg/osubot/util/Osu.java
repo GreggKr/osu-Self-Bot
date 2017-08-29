@@ -188,7 +188,7 @@ public class Osu {
 		return null;
 	}
 
-	/*
+	/**
 
 	@param mode should be *unparsed*
 

@@ -8,6 +8,7 @@ import me.sirgregg.osubot.util.objects.Beatmap;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.awt.Color;
+import java.util.List;
 
 public class BeatmapCommand extends Command {
 	private Configuration configuration = OsuBot.getConfiguration();
@@ -83,7 +84,9 @@ public class BeatmapCommand extends Command {
 							"**MAPSET: **https://osu.ppy.sh/s/" + beatmap.getBeatmapsetId()
 			)).queue();
 		} else {
-			String pp = OsuBot.getOsu().getPP(rawId, rawMode, null, mods, null, null, null);
+			List<String> info = OsuBot.getOsu().getInfo(rawId, rawMode, null, mods, null, null, null);
+			String pp = info.get(28);
+
 			e.getMessage().editMessage(EmbedUtil.createEmbed(color,
 					"**CREATOR: **" + beatmap.getCreator() + "\n" +
 							"**VERSION: **" + beatmap.getVersion() + "\n" +
