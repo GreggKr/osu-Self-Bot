@@ -1,7 +1,5 @@
 package me.sirgregg.osubot.util;
 
-import static me.sirgregg.osubot.util.helpers.URLUtil.sanatize;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
@@ -18,6 +16,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+
+import static me.sirgregg.osubot.util.helpers.URLUtil.sanatize;
 
 public class Osu {
 	private Configuration config = OsuBot.getConfiguration();
@@ -162,7 +162,7 @@ public class Osu {
 
 		if (exists(getJson(url))) {
 			Gson gson = new GsonBuilder().create();
-			Play[] plays =  gson.fromJson(URLUtil.readURL(url), Play[].class);
+			Play[] plays = gson.fromJson(URLUtil.readURL(url), Play[].class);
 
 			Beatmap[] beatmaps = new Beatmap[Integer.parseInt(amount)];
 			for (int i = 0; i < plays.length; i++) {
@@ -192,17 +192,11 @@ public class Osu {
 
 	@param mode should be *unparsed*
 
-	@returns -1 if file is null
-	@returns -2 if process fails
-	@returns -3 if mode isn't correct
-	@returns -4 if the return from oppai is null.
-	@returns pp if everything works
-
 	 */
-	public String getPP(String beatmapId, String mode, String accuracy, String mods, String combo, String misses, String scoreVersion) {
+	public List<String> getInfo(String beatmapId, String mode, String accuracy, String mods, String combo, String misses, String scoreVersion) {
 		int parsedMode = parseMode(mode);
 		if (parsedMode == -1) {
-			return "-3";
+			return null;
 		}
 		String input = "https://osu.ppy.sh/osu/" + beatmapId + "?m=" + mode;
 
@@ -259,7 +253,7 @@ public class Osu {
 
 		if (file != null) {
 			try {
-				osu = new ProcessBuilder(config.getOppaiPath(), file.getAbsolutePath(), accuracy, mods, combo, misses, scoreVersion).start();
+				osu = new ProcessBuilder(config.getOppaiPath(), file.getAbsolutePath(), accuracy, mods, combo, misses, scoreVersion).start(); // -ojson tells it to spit it out as JSON
 
 				InputStream is = osu.getInputStream();
 				InputStreamReader inputStreamReader = new InputStreamReader(is);
@@ -268,24 +262,23 @@ public class Osu {
 				String read = null;
 				String line;
 
-				List<String> infoArray = new ArrayList<>();
+				List<String> info = new ArrayList<>();
 
-				while((line = bufferedReader.readLine()) != null) {
+				while ((line = bufferedReader.readLine()) != null) {
 					read = read + line + "\n"; // TODO: Use a builder
-					infoArray.add(line + "\n");
+					info.add(line + "\n");
 				}
 
 				if (read != null) {
-					return infoArray.get(28); // PP
-				} else{
-					return "-4";
+					return info;
+				} else {
+					return null;
 				}
-
 			} catch (IOException e) {
-				return "-2";
+				return null;
 			}
 		} else {
-			return "-1";
+			return null;
 		}
 	}
 
